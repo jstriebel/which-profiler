@@ -7,16 +7,14 @@ name = "which-profiler"
 version = "0.0.1"
 description = "Which profiler, when? Find out at EuroPython 2026!"
 readme = "README.md"
-license = { text = "MIT" }
 requires-python = ">=3.9"
 keywords = ["profiling", "performance", "europython"]
 classifiers = [
     "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
 ]
 
 [project.urls]
-Homepage = "https://ep2026.europython.eu"
+Homepage = "https://ep2026.europython.eu/session/uvx-which-profiler-which-profiler-when/"
 
 [project.scripts]
 which-profiler = "which_profiler:main"
