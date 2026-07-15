@@ -49,24 +49,6 @@ EuroPython 2026, Kraków
 
 👉 https://ep2026.europython.eu/session/uvx-which-profiler-which-profiler-when/
 
-### Presenter mode
-
-`scripts/demo-teleprompter.sh` is a live-demo teleprompter for the talk. It
-reads the ```` ```bash ```` blocks straight out of `talk/WALKTHROUGH.md` (the
-single source of truth, no duplicated command list) and walks you through
-them one at a time. Press a key to advance, the command lands on an editable,
-pre-filled prompt so you can fill in placeholders like `<PID>`/`<size>`/`<tool>`
-live, then Enter runs it.
-
-```bash
-scripts/demo-teleprompter.sh              # interactive presenter mode
-scripts/demo-teleprompter.sh --list       # print every parsed step, run nothing
-scripts/demo-teleprompter.sh --start 7    # jump straight to step 7
-```
-
-Per-step keys: `Enter`/`n` next · `s` skip · `p` previous · `r` re-run · `q`
-quit. Defaults to running from `examples/image_analysis/`; see `--help`.
-
 ## Potential profilers to include in the future
 
 - [line_profiler](https://github.com/pyutils/line_profiler)
