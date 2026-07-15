@@ -2,10 +2,13 @@
 
 # The naive starting point before step B reaches for numpy at all: nested
 # Python loops both for parsing the ``np.savetxt``-formatted CSVs and for the
-# colorcode compute. cProfile / py-spy show the hotspot living in Python
-# bytecode itself, not in some C extension call. Zero third-party imports
-# also makes this the one script in the arc that runs unmodified on CPython
-# 3.15 today; numpy/h5py/scikit-image/scikit-learn have no 3.15 wheels yet.
+# colorcode compute, with tiny per-field/per-channel helper functions — the
+# innocent "clean code" style that multiplies the call count and makes
+# instrumenting profilers like cProfile visibly expensive. cProfile / py-spy
+# show the hotspot living in Python bytecode itself, not in some C extension
+# call. Zero third-party imports also makes this the one script in the arc
+# that runs unmodified on CPython 3.15 today; numpy/h5py/scikit-image/
+# scikit-learn have no 3.15 wheels yet.
 
 from __future__ import annotations
 
@@ -17,10 +20,15 @@ from pathlib import Path
 CLASS_COLORS: list[list[int]] = [[0, 0, 255], [0, 255, 0], [255, 0, 0], [0, 255, 255]]
 
 
+def _parse_field(value: str) -> float:
+    """One call per CSV field."""
+    return float(value)
+
+
 def _read_csv(path: Path) -> list[list[float]]:
     """Parse an ``np.savetxt``-style whitespace-separated CSV, stdlib only."""
     with path.open() as f:
-        return [[float(v) for v in line.split()] for line in f]
+        return [[_parse_field(v) for v in line.split()] for line in f]
 
 
 def load_probabilities(folder: Path) -> list[list[list[float]]]:
@@ -33,6 +41,20 @@ def load_probabilities(folder: Path) -> list[list[list[float]]]:
     ]
 
 
+def _argmax(values: list[float]) -> int:
+    """One call per pixel."""
+    index = 0
+    for i, value in enumerate(values):
+        if value > values[index]:
+            index = i
+    return index
+
+
+def _scale_channel(channel: int, factor: float) -> float:
+    """One call per pixel per color channel."""
+    return channel * factor
+
+
 def colorcode_probabilities(
     probabilities: list[list[list[float]]],
 ) -> list[list[list[float]]]:
@@ -40,13 +62,11 @@ def colorcode_probabilities(
     for probabilities_row in probabilities:
         colored_probabilities_row = []
         for class_probabilities in probabilities_row:
-            class_index = 0
-            max_prob = 0.0
-            for i, prob in enumerate(class_probabilities):
-                if prob > max_prob:
-                    max_prob = prob
-                    class_index = i
-            colored_probability = [c * max_prob for c in CLASS_COLORS[class_index]]
+            class_index = _argmax(class_probabilities)
+            max_prob = class_probabilities[class_index]
+            colored_probability = [
+                _scale_channel(c, max_prob) for c in CLASS_COLORS[class_index]
+            ]
             colored_probabilities_row.append(colored_probability)
         colored_probabilities.append(colored_probabilities_row)
     return colored_probabilities
