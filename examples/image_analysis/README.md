@@ -8,7 +8,7 @@ This directory is its own `uv` project (`pyproject.toml`, own lock/venv),
 kept separate from the top-level `which-profiler` package so that package
 stays free of numpy/h5py/scikit-image/scikit-learn/numba. Requires Python
 3.14+. On CPython 3.15, numpy/h5py/scikit-image/scikit-learn/numba have no
-wheels yet (3.15 is still beta), so steps B–G below need 3.14. The exception
+wheels yet (3.15 is still beta), so steps B-G below need 3.14. The exception
 is `a_pure_python.py`.
 
 `a_pure_python.py` has zero third-party imports (it parses the CSVs by hand
@@ -40,7 +40,7 @@ uv run generate_data.py --crop-size 300  # quick/small
 ```
 
 Sizes tile the same 900×900 base: `s` (1×), `m` (2×), `l` (4×). Disk usage is
-dominated by the CSV form (steps A–B): roughly ~70MB for `s`, ~280MB for `m`,
+dominated by the CSV form (steps A-B): roughly ~70MB for `s`, ~280MB for `m`,
 ~1.1GB for `l`. Data lands in `examples/image_analysis/data/` (gitignored).
 
 ## Run a step

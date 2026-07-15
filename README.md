@@ -53,7 +53,7 @@ EuroPython 2026, Kraków
 
 `scripts/demo-teleprompter.sh` is a live-demo teleprompter for the talk. It
 reads the ```` ```bash ```` blocks straight out of `talk/WALKTHROUGH.md` (the
-single source of truth — no duplicated command list) and walks you through
+single source of truth, no duplicated command list) and walks you through
 them one at a time. Press a key to advance, the command lands on an editable,
 pre-filled prompt so you can fill in placeholders like `<PID>`/`<size>`/`<tool>`
 live, then Enter runs it.

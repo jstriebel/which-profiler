@@ -4,7 +4,7 @@ Trains a small RandomForest pixel classifier on skimage's ``skin()`` sample
 photo (same basis as the scikit-image trainable-segmentation tutorial),
 predicts per-pixel class probabilities, then tiles image+probabilities into
 ``data/{s,m,l}``. Writes both the CSV-per-class form (used by step A) and the
-HDF5 form (used by steps B–F).
+HDF5 form (used by steps B-F).
 """
 
 from __future__ import annotations

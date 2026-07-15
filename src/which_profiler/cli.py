@@ -1,4 +1,4 @@
-"""``which-profiler`` — filtered profiler catalog.
+"""``which-profiler``: filtered profiler catalog.
 
 Filters narrow the roster; survivors are ranked by measured overhead so a
 non-empty filter always has a clear top pick. Three ways in: interactive (one

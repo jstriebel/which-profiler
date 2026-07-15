@@ -65,7 +65,7 @@ run_root_cell() {
         # on this interpreter), record it as a loud SKIP instead of a hard
         # failure. A real test failure on 3.15 still fails the matrix.
         if is_prerelease "$ver" && ! grep -Eq '[0-9]+ (passed|failed|error)' "$log"; then
-            echo "!!! python ${ver}: dependency install failed on prerelease interpreter – RECORDED SKIP !!!"
+            echo "!!! python ${ver}: dependency install failed on prerelease interpreter, RECORDED SKIP !!!"
             tail -15 "$log"
             record "root-py${ver}" "skip" "prerelease dep-install failure"
         else
