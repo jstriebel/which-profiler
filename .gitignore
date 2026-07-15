@@ -72,6 +72,7 @@ ipython_config.py
 .env
 .envrc
 .venv
+.venvs/
 env/
 venv/
 ENV/
@@ -94,3 +95,19 @@ dmypy.json
 
 # PyPI configuration file
 .pypirc
+
+# Generated example data
+examples/image_analysis/data/
+
+# Generated profiler artifacts
+*.bin
+*.html
+*.json
+*.pstats
+*.raw.txt
+*.svg
+*perf.data*
+_scalene_shim_*.py
+out.txt
+scalene-profile.html
+scalene-profile.json

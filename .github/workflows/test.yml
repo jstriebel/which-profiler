@@ -1,0 +1,40 @@
+name: Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  root:
+    name: root tests (py${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.experimental }}
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14", "3.15"]
+        experimental: [false]
+        include:
+          - python-version: "3.15"
+            experimental: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v4
+      - name: uv run pytest
+        run: uv run --python ${{ matrix.python-version }} pytest tests/ -q
+        # 3.15 is still prerelease: uv fetches its python-build-standalone
+        # beta directly (no separate "allow-prereleases" toggle needed), but
+        # dependency wheels (e.g. typer/click) may not be published for it
+        # yet. continue-on-error above keeps that from blocking the workflow.
+
+  examples:
+    name: examples tests (py3.14, tiny data)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v4
+      - name: uv run pytest (examples/image_analysis)
+        run: cd examples/image_analysis && uv run pytest -q
+        # tests/test_examples.py generates its own tiny (--crop-size 100,
+        # --sizes s) fixture data on the fly, no full-size dataset needed.

@@ -5,19 +5,99 @@ build-backend = "hatchling.build"
 [project]
 name = "which-profiler"
 version = "0.0.1"
-description = "Which profiler, when? Find out at EuroPython 2026!"
+description = "Which Python profiler fits your workload? Filter by focus, attach mode, and more; get a runnable command."
 readme = "README.md"
-requires-python = ">=3.9"
-keywords = ["profiling", "performance", "europython"]
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [
+    { name = "Jonathan Striebel", email = "jonathan.striebel@gmail.com" },
+]
+keywords = ["profiling", "performance", "profiler", "cli", "europython"]
 classifiers = [
+    "Environment :: Console",
+    "Intended Audience :: Developers",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Debuggers",
+    "Topic :: System :: Benchmark",
+    "Typing :: Typed",
+]
+dependencies = [
+    "typer>=0.15",
 ]
 
 [project.urls]
 Homepage = "https://ep2026.europython.eu/session/uvx-which-profiler-which-profiler-when/"
+Repository = "https://github.com/jstriebel/which-profiler"
+Issues = "https://github.com/jstriebel/which-profiler/issues"
 
 [project.scripts]
 which-profiler = "which_profiler:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/which_profiler"]
+
+[dependency-groups]
+dev = [
+    "mypy>=1.19.1",
+    "pytest>=8.0",
+    "ruff>=0.15.20",
+]
+
+[tool.ruff]
+# examples/image_analysis is a standalone sub-project (own deps, own venv,
+# python_requires >=3.14) and intentionally uses prints for its demo output.
+exclude = [ "examples/" ]
+lint.select = [
+    "ASYNC",   # flake8-async
+    "B",       # flake8-bugbear
+    "C4",      # flake8-comprehensions
+    "DTZ",     # flake8-datetimez
+    "E",       # pycodestyle errors
+    "EXE",     # flake8-executable
+    "F",       # Pyflakes
+    "FURB",    # refurb
+    "G",       # flake8-logging-format
+    "I",       # isort
+    "ICN",     # flake8-import-conventions
+    "INP001",  # implicit-namespace-package
+    "LOG",     # flake8-logging
+    "N",       # pep8-naming
+    "NPY",     # numpy specifc
+    "PERF",    # Perflint
+    "PIE",     # flake8-pie
+    "PLC",     # pylint conventions
+    "PLC2701", # import-private-name
+    "PLE",     # pylint errors
+    "PTH",     # flake8-use-pathlib
+    "Q",       # flake8-quotes
+    "RSE",     # flake8-raise
+    "RUF",     # ruff-specific rules
+    "SLF",     # flake8-self
+    "SLOT",    # flake8-slots
+    "T20",     # flake8-print
+    "TID",     # flake8-tidy-imports
+    "UP",      # pyupgrade
+    "W",       # pycodestyle warnings
+]
+lint.ignore = [
+    "RUF001", # ambiguous-unicode-character-string, "×" is used deliberately for overhead labels
+    "RUF002", # ambiguous-unicode-character-docstring
+    "RUF003", # ambiguous-unicode-character-comment
+]
+# only enable preview with the full code, not via prefix
+lint.explicit-preview-rules = true
+lint.per-file-ignores."src/which_profiler/catalog.py" = [ "E501" ]  # long descriptive data strings
+# importing private modules in tests is fine; generated command assertions run long
+lint.per-file-ignores."tests/**" = [ "PLC2701", "E501" ]
+lint.isort.known-first-party = [ "which_profiler" ]
+lint.preview = true
+
+[tool.mypy]
+strict = true
+exclude = [ "^examples/" ]
+overrides = [ { module = "tests.*", disallow_untyped_defs = false, disallow_incomplete_defs = false } ]

@@ -1,0 +1,33 @@
+amends "package://github.com/jdx/hk/releases/download/v1.45.0/hk@1.45.0#/Config.pkl"
+import "package://github.com/jdx/hk/releases/download/v1.45.0/hk@1.45.0#/Builtins.pkl"
+
+local linters = new Mapping<String, Step> {
+    // Add linters here. Examples:
+    // ["prettier"] = Builtins.prettier
+    // ["eslint"] = Builtins.eslint
+    ["mise"] = Builtins.mise
+    ["mypy"] = (Builtins.mypy) {
+      // Type checking doesn't modify files
+      stomp = true
+      // examples/image_analysis is a standalone sub-project with its own
+      // pyproject.toml, deps (numpy/h5py/...) and venv
+      exclude = List("examples/**")
+    }
+    ["ruff"] = Builtins.ruff
+    ["ruff_format"] = Builtins.ruff_format
+}
+
+hooks {
+    ["pre-commit"] {
+        fix = true
+        stash = "git"
+        steps = linters
+    }
+    ["fix"] {
+        fix = true
+        steps = linters
+    }
+    ["check"] {
+        steps = linters
+    }
+}

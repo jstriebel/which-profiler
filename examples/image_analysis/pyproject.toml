@@ -1,0 +1,22 @@
+[project]
+name = "which-profiler-examples-image-analysis"
+version = "0.0.1"
+description = "Image-analysis example arc for which-profiler (standalone deps, not part of the top-level package)"
+requires-python = ">=3.14"
+dependencies = [
+    "numpy>=1.24",
+    "h5py>=3.8",
+    "scikit-image[data]>=0.22",
+    "scikit-learn>=1.3",
+    # No 3.15 wheels yet (CPython 3.15 is still in beta); drop the pin once
+    # numba publishes cp315 wheels, then this arc runs on 3.15 too.
+    "numba>=0.60; python_version < '3.15'",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+]
+
+[tool.uv]
+package = false

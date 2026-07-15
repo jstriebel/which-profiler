@@ -1,6 +1,19 @@
 [tools]
-python = "3.11"
+hk = "latest"
+pkl = "latest"
 uv = "latest"
+
+"github:parca-dev/parca" = "latest"
+[tools."github:parca-dev/parca-agent"]
+version = "latest"
+bin = "parca-agent"
+
+[tasks]
+install = "mise install && uv sync --locked"
+fix = "hk fix --no-stage --no-fail-fast --all"
+check = "hk check --no-stage --no-fail-fast --all"
+test = "uv run pytest"
+test-all = "bash scripts/test-matrix.sh"
 
 [settings]
 python.uv_venv_auto = true
