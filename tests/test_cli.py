@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 import sys
 from typing import Any
 
@@ -14,6 +15,18 @@ from which_profiler.catalog import BY_KEY
 from which_profiler.cli import app
 
 runner = CliRunner()
+
+_ANSI = re.compile(r"\x1b\[[0-9;]*m")
+
+
+def _plain(text: str) -> str:
+    """Strip ANSI color codes so substring checks survive Rich highlighting.
+
+    With color on (e.g. CI's FORCE_COLOR), Rich highlights option names and
+    splits ``--nosy`` into ``-`` + ``-nosy`` with escape codes between the
+    dashes, breaking a naive ``"--nosy" in output`` check.
+    """
+    return _ANSI.sub("", text)
 
 
 @pytest.fixture(autouse=True)
@@ -260,7 +273,7 @@ def test_nosy_asks_five_extra_questions() -> None:
 def test_nosy_rejects_json() -> None:
     result = runner.invoke(app, ["--nosy", "--json", "--all"])
     assert result.exit_code != 0
-    assert "--nosy" in result.output
+    assert "--nosy" in _plain(result.output)
 
 
 def test_nosy_skips_questions_already_answered_by_flags() -> None:
