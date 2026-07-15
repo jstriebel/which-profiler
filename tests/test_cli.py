@@ -231,7 +231,6 @@ def test_human_output_shows_new_fields() -> None:
     result = runner.invoke(app, ["--focus", "time", "--python", "3.15"])
     assert result.exit_code == 0, result.output
     out = result.output
-    assert "→ top pick" in out
     assert "⏱ = time  💾 = memory" in out  # marker legend
     assert "view directly: flamegraph (html), line (heatmap)" in out  # tachyon
     assert (

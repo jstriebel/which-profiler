@@ -207,12 +207,11 @@ def _render(
 
         tags = _tags(tool, target_py, trampoline_ok) if tagged else []
         tag_str = ("  " + " ".join(tags)) if tags else ""
-        top = " → top pick" if rank == 1 and not tags else ""
 
         typer.echo("")
         typer.secho(
             f"{rank}. {tool.display_name} {tool.marker}: {tool.mechanism}, "
-            f"{tool.overhead_label()}{tag_str}{top}",
+            f"{tool.overhead_label()}{tag_str}",
             bold=True,
         )
         typer.echo(f"   {tool.url}")

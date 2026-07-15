@@ -600,6 +600,8 @@ CATALOG: list[Tool] = [
             "Needs PYTHONPERFSUPPORT=1 set before the target starts.",
             "Launch-only for Python frames, the trampoline must be enabled when the process "
             "starts, so attaching to an already-running process only sees C/kernel frames.",
+            "On 3.12 you'll only get readable Python frames with a frame-pointer build, the "
+            "-X perf_jit no-frame-pointer workaround needs 3.13+.",
         ],
         requires="perf_events",
         install_hint="Linux-only, system package (not pip/uv-installable, e.g. `sudo apt install linux-perf`)",
