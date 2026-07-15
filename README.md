@@ -37,17 +37,12 @@ which-profiler --focus time --json      # machine-readable, no prompts
 
 ## The talk
 
-Come see **"uvx which-profiler: Which Profiler, When?"** at EuroPython 2026:
+This project was presented as **"uvx which-profiler: Which Profiler, When?"** at EuroPython 2026 in Kraków.
 
-EuroPython 2026, Kraków
-
-📍 **Room S2**
-
-📅 **Wednesday, 15 July 2026**
-
-🕐 **15:25**
-
-👉 https://ep2026.europython.eu/session/uvx-which-profiler-which-profiler-when/
+- 📑 [Slides (PDF)](talk/which-profiler-when-europython-2026-slides.pdf)
+- 🧪 [Demo walkthrough](talk/walkthrough.md) with the [examples](examples) shown in the talk
+- 👉 [EuroPython 2026 session page](https://ep2026.europython.eu/session/uvx-which-profiler-which-profiler-when/)
+- 🔁 Related repo [profile-optimize-repeat](https://github.com/jstriebel/profile-optimize-repeat) for more details about the optimizations
 
 ## Potential profilers to include in the future
 
